@@ -4,6 +4,8 @@ Afternoon Group 3 Members:
 * Alice Zhao
 * Melanie Palmer
 
+Formal Project Proposal Document: https://docs.google.com/document/d/1WFyMKPzvmTc1K2G8ojRURwFQRD2vI0HJd0LT3QEokLQ/edit?usp=sharing
+
 Data Source (link): https://www.kaggle.com/c/house-prices-advanced-regression-techniques 
 
 Data Description (#vars, #rows, types, etc):
