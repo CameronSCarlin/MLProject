@@ -18,4 +18,5 @@ print ScriptData[0]
 # remove the ones where speaking_line (6th column) == False
 # replace character_id with the actual character names from the character csv?
 # same with location
-#use character as Y, use location, normalized text, and word count to create features (also maybe episode id?)
+# use character as Y, use location, normalized text, and word count to create features (also maybe episode id?)
+# manually create corpus of person specific terms or phrases?
