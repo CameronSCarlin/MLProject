@@ -1,13 +1,14 @@
-Afternoon Group 3 Members:
+The Simpsons Members:
 * Cameron Carlin
 * Bradley Kenstler
 * Alice Zhao
 * Melanie Palmer
 
-Formal Project Proposal Document: https://docs.google.com/document/d/1WFyMKPzvmTc1K2G8ojRURwFQRD2vI0HJd0LT3QEokLQ/edit?usp=sharing
+Formal Project Proposal Document: https://docs.google.com/document/d/1eGdP5rDdMAKx6cPPW8bdsVZ2iBccsE8Ai5N8HrW5sMI/edit
 
-Data Source (link): https://www.kaggle.com/c/house-prices-advanced-regression-techniques 
+Data Source (link): https://www.kaggle.com/wcukierski/the-simpsons-by-the-data
 
+*NEEDS UPDATING*
 Data Description (#vars, #rows, types, etc):
 * 1460 rows for train
 * 1460 rows for test
