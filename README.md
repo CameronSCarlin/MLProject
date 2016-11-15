@@ -8,7 +8,14 @@ Formal Project Proposal Document: https://docs.google.com/document/d/1eGdP5rDdMA
 
 Data Source (link): https://www.kaggle.com/wcukierski/the-simpsons-by-the-data
 
-*NEEDS UPDATING*
+# Running To-Do List:
+* remove the ones where speaking_line (6th column) == False
+* replace character_id with the actual character names from the character csv?
+* same with location
+* use character as Y, use location, normalized text, and word count to create features (also maybe episode id?)
+* manually create corpus of person specific terms or phrases?
+
+# Everything below needs updating
 Data Description (#vars, #rows, types, etc):
 * 1460 rows for train
 * 1460 rows for test
