@@ -8,8 +8,6 @@ Formal Project Proposal Document: https://docs.google.com/document/d/1eGdP5rDdMA
 
 Google Slides Presentation: https://docs.google.com/presentation/d/16pyf2bN2KBMHmWfQ47IwyxvP_73TRdx7vIDEKpzpCwU/edit?usp=sharing
 
-Data Source (link): https://www.kaggle.com/wcukierski/the-simpsons-by-the-data
-
 ### Running To-Do List:
 * remove the ones where speaking_line (6th column) == False
 * replace character_id with the actual character names from the character csv?
