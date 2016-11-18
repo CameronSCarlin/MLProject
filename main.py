@@ -15,3 +15,4 @@ characters = pd.read_csv(file1)
 episodes = pd.read_csv(file2)
 locations = pd.read_csv(file3)
 lines = pd.read_csv(file4, low_memory=False)
+lines = lines.iloc[ : , :13]
