@@ -23,3 +23,8 @@ print ScriptData[0]
 # same with location
 # use character as Y, use location, normalized text, and word count to create features (also maybe episode id?)
 # manually create corpus of person specific terms or phrases?
+
+# TODO Features to add
+# TFIDF?
+# dummy variables of location
+# stemmed words vs actual words?
