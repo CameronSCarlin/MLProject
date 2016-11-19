@@ -4,6 +4,8 @@
 
 import Validations, LogReg, KNNClass, RForest, SuppVec, Features
 import pandas as pd
+from Features import extract_features, top_words
+import numpy as np
 
 file1 = "simpsons_characters.csv"
 file2 = "simpsons_episodes.csv"
@@ -14,7 +16,7 @@ file4 = "simpsons_script_lines.csv"
 characters = pd.read_csv(file1)
 episodes = pd.read_csv(file2)
 locations = pd.read_csv(file3)
-lines = pd.read_csv(file4, low_memory=False, error_bad_lines=False)
+lines = pd.read_csv(file4, low_memory=False, error_bad_lines=False, encoding='utf-8', warn_bad_lines=False)
 lines = lines.iloc[ : , :13]
 
 #subset of data we need
@@ -22,4 +24,15 @@ data = lines[lines.speaking_line=='true'][['location_id', 'normalized_text','cha
 
 target = data['character_id']
 
-features = extract_feature(data)
+### Method to construct list of top words for feature construction is called below
+### saved word list in words.csv and am loading to save time while testing
+
+#words = np.array(top_words(data))
+words = np.loadtxt('words.csv', delimiter=',', dtype='S')
+
+#WILL RUN OUT OF MEMORY if ran on whole set, try on subset
+#we should explore sparse matrices?
+features= extract_features(data[:100], words)
+
+
+
