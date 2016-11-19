@@ -14,5 +14,5 @@ file4 = "simpsons_script_lines.csv"
 characters = pd.read_csv(file1)
 episodes = pd.read_csv(file2)
 locations = pd.read_csv(file3)
-lines = pd.read_csv(file4, low_memory=False)
+lines = pd.read_csv(file4, low_memory=False, error_bad_lines=False)
 lines = lines.iloc[ : , :13]
