@@ -2,6 +2,8 @@
 ####### Logistic Regression #######
 ###################################
 
+from sklearn.linear_model import LogisticRegression
+
 def LogReg(*arg):
     if len(arg) < 3:
         print "Needs trainX, testX, trainY at a minimum"

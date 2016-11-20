@@ -1,3 +1,5 @@
+from sklearn.metrics import accuracy_score
+
 #######################################
 ####### K-Fold Cross Validation #######
 #######################################
