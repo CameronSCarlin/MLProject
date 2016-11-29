@@ -42,7 +42,7 @@ def tokenizer(text):
 def top_character_words(corpus):
     bag = stemwords(tokenize(corpus))
     count = Counter(bag)
-    top_words = [word[0] for word in count.most_common(50)]
+    top_words = [word[0] for word in count.most_common(250)]
     return top_words
 
 #given dataset and character id, takes all lines by that character

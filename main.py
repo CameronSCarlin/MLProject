@@ -6,6 +6,8 @@ import Validations, LogReg, KNNClass, RForest, SuppVec, Features
 import pandas as pd
 from Features import extract_features, top_words
 import numpy as np
+from sklearn.externals import joblib
+from collections import Counter
 
 
 file1 = "simpsons_characters.csv"
@@ -27,6 +29,8 @@ data = lines[lines.speaking_line=='true'][['location_id', 'normalized_text','cha
 data['location_id'] = [str(int(i)) for i in data['location_id']]
 
 targets = data['character_id']
+mainChars = list(zip(*Counter(targets.tolist()).most_common(4))[0])
+targets.loc[~targets.isin(mainChars)] = '1000'
 
 ### Method to construct list of top words for feature construction is called below
 ### saved word list in words.csv and am loading to save time while testing
@@ -41,13 +45,36 @@ words = np.loadtxt('words.csv', delimiter=',', dtype='S')
 features = extract_features(data)
 
 # select features
-# features = Features.feature_selection(features,targets)
+features = Features.feature_selection(features,targets, 10)
 
 
 #simply test for Logisticregression
-# from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+from sklearn.svm import SVC
 
-# model = LogisticRegression()
-# model.fit(features, targets)
-# print model.score
+randomselect = np.random.rand(len(features)) < 0.8
+trainX = features[randomselect]
+trainY = targets[randomselect]
+testX = features[~randomselect]
+testY = targets[~randomselect]
+
+model = LogisticRegression()
+model.fit(trainX, trainY)
+prediction = model.predict(testX)
+print 'LogReg', 1 - accuracy_score(testY, prediction)
+
+for i in range(1,30,5):
+    clf = DecisionTreeClassifier(max_depth=i)
+    clf.fit(trainX, trainY)
+    hypothesis = clf.predict(testX)
+    print i, 'DecTree', 1 - accuracy_score(testY, hypothesis)
+
+for i in range(1,30,5):
+    clf = RandomForestClassifier(max_depth=i)
+    clf.fit(trainX, trainY)
+    hypothesis = clf.predict(testX)
+    print i, 'RF', 1 - accuracy_score(testY, hypothesis)
 
