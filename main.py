@@ -8,6 +8,7 @@ from Features import extract_features, top_words
 import numpy as np
 from sklearn.externals import joblib
 from collections import Counter
+import sys
 
 
 file1 = "simpsons_characters.csv"
@@ -29,7 +30,13 @@ data = lines[lines.speaking_line=='true'][['location_id', 'normalized_text','cha
 data['location_id'] = [str(int(i)) for i in data['location_id']]
 
 targets = data['character_id']
-mainChars = list(zip(*Counter(targets.tolist()).most_common(4))[0])
+
+
+#mainChars = list(zip(*Counter(targets.tolist()).most_common(4))[0])
+
+names = [sys.argv[i] for i in range(1,len(sys.argv))]
+mainChars = [unicode(characters['id'][characters['normalized_name']==name].values[0]) for name in names]
+
 targets.loc[~targets.isin(mainChars)] = '1000'
 
 ### Method to construct list of top words for feature construction is called below
@@ -42,10 +49,18 @@ words = np.loadtxt('words.csv', delimiter=',', dtype='S')
 #WILL RUN OUT OF MEMORY if ran on whole set, try on subset
 #we should explore sparse matrices?
 
-features = extract_features(data)
+randomselect = np.random.rand(len(data)) < 0.8
+traindata = data[randomselect]
+testdata = data[~randomselect]
 
+trainX, train_word_vec, train_loc_vec = extract_features(traindata)
+testX , a, b = extract_features(testdata, train_word_vec, train_loc_vec)
+trainY = targets[randomselect]
+testY = targets[~randomselect]
 # select features
-features = Features.feature_selection(features,targets, 10)
+#features = Features.feature_selection(features,targets, 10)
+
+
 
 
 #simply test for Logisticregression
@@ -55,11 +70,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from sklearn.svm import SVC
 
-randomselect = np.random.rand(len(features)) < 0.8
-trainX = features[randomselect]
-trainY = targets[randomselect]
-testX = features[~randomselect]
-testY = targets[~randomselect]
 
 model = LogisticRegression()
 model.fit(trainX, trainY)

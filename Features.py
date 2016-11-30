@@ -100,24 +100,34 @@ def word_rate(text, words):
 
 #extract both words & locations features with min/max df = proportion of documents
 #tfidfvectorizer is Equivalent to CountVectorizer followed by TfidfTransformer.
-def extract_features(data):
-    vectorizer = TfidfVectorizer(max_df=0.2,
+
+#Modified below to work for training vectorizer, and transforming test data
+#by passing in vectorizers from fitting on training to make test features
+def extract_features(data,word_vec=None, loc_vec=None):
+    if word_vec:
+        vectorizer_word = word_vec
+        x_vectors = vectorizer_word.transform(data['normalized_text'])
+        x_vectors = x_vectors.toarray()
+    else:
+        vectorizer_word = TfidfVectorizer(max_df=0.2,
                                  min_df=0.002,
                                  analyzer='word',
                                  tokenizer=tokenizer,  # tokenize, stem
                                  stop_words='english',
                                  strip_accents='unicode')
-
-    x_vectors= vectorizer.fit_transform(data['normalized_text'])
-    print x_vectors.shape
-    x_vectors = x_vectors.toarray()
-    vectorizer = TfidfVectorizer(max_df=0.2,
+        x_vectors= vectorizer_word.fit_transform(data['normalized_text'])
+        x_vectors = x_vectors.toarray()
+    if loc_vec:
+        vectorizer_location = loc_vec
+        locations = vectorizer_location.transform(data['location_id'])
+        locations = locations.toarray()
+    else:
+        vectorizer_location = TfidfVectorizer(max_df=0.2,
                                  min_df=0.002,)
-    locations = vectorizer.fit_transform(data['location_id'])
-    locations = locations.toarray()
-    print locations.shape
+        locations = vectorizer_location.fit_transform(data['location_id'])
+        locations = locations.toarray()
     #return sparse.csr_matrix(np.concatenate((locations, x_vectors),axis = 1))
-    return np.concatenate((locations, x_vectors),axis = 1)
+    return np.concatenate((locations, x_vectors),axis = 1), vectorizer_word, vectorizer_location
 
 
 # further select the features with extratree
