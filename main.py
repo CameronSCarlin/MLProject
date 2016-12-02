@@ -70,6 +70,7 @@ def test_rand_for(trainX, trainY, testX, testY):
         print i, 'RF', 1 - accuracy_score(testY, hypothesis)
 
 
+###Takes as CL arguments characters to test for against all other characters
 if __name__ == "__main__":
     data = get_data()
     targets = set_targets(data,sys.argv[1:])
