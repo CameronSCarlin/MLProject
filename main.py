@@ -20,7 +20,7 @@ file3 = "simpsons_locations.csv"
 file4 = "simpsons_script_lines.csv"
 characters = pd.read_csv(file1)
 
-
+#retrieves required data and formats correctly
 def get_data():
     lines = pd.read_csv(file4, low_memory=False, error_bad_lines=False, encoding='utf-8', warn_bad_lines=False)
     lines = lines.iloc[:, :13]
@@ -28,7 +28,7 @@ def get_data():
     data['location_id'] = [str(int(i)) for i in data['location_id']]
     return data
 
-
+#given dataset and list of characters to test against all other, returns targets
 def set_targets(data, target_characters):
     global characters
     targets = data['character_id']
@@ -37,7 +37,7 @@ def set_targets(data, target_characters):
     targets.loc[~targets.isin(mainChars)] = '1000'
     return targets
 
-
+#splits data into train/test
 def train_test_split(data):
     randomselect = np.random.rand(len(data)) < 0.8
     traindata = data[randomselect]
