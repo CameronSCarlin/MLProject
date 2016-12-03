@@ -4,6 +4,8 @@ The Simpsons Members:
 * Alice Zhao
 * Melanie Palmer
 
+Project Outline: https://docs.google.com/document/d/13vzFY9aZb9fmVQO8pOMGa9x8-LePPZWbUKHuZlGuc4E/edit?usp=sharing
+
 Formal Project Proposal Document: https://docs.google.com/document/d/1eGdP5rDdMAKx6cPPW8bdsVZ2iBccsE8Ai5N8HrW5sMI/edit
 
 Google Slides Presentation: https://docs.google.com/presentation/d/16pyf2bN2KBMHmWfQ47IwyxvP_73TRdx7vIDEKpzpCwU/edit?usp=sharing
