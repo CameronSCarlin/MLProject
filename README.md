@@ -10,35 +10,41 @@ Formal Project Proposal Document: https://docs.google.com/document/d/1eGdP5rDdMA
 
 Google Slides Presentation: https://docs.google.com/presentation/d/16pyf2bN2KBMHmWfQ47IwyxvP_73TRdx7vIDEKpzpCwU/edit?usp=sharing
 
-### Running To-Do List:
-* remove the ones where speaking_line (6th column) == False
-* replace character_id with the actual character names from the character csv?
-* same with location
-* use character as Y, use location, normalized text, and word count to create features (also maybe episode id?)
-* manually create corpus of person specific terms or phrases?
+### To-Do List for presentation/outline:
+* Explanation of TFIDF attempt/implementation (add in slide, Alice or Brad)
+* Explanation of PorterStemmer attempt/implementation
+* Explanation of frequency of locations used
+* "            " attempt using 'most common' words spoken by each class
+
+### To-Do List for adding into slides:
+* add in Misclassification rates for 1vAll, 4vAll, 10vAll, and Everyone
+* add in future attempts
+* add in the issues we had with the data itself
 
 ## About the Data:
 *Data Source:* https://www.kaggle.com/wcukierski/the-simpsons-by-the-data
 
-*Data Description:* This dataset contains the characters, locations, episode details, and script lines for approximately 600 Simpsons episodes, dating back to 1989. Contains 158,272 individual lines of speech.
+*Data Description:* This dataset contains the characters, locations, episode details, and script lines for approximately 600 Simpsons episodes, dating back to 1989. Contains approximately 131,000 individual lines of speech.
 
 
 ### Problem we would like to solve with this data:
-Using the lines of speech from every Simpsons episode ever, we aim to accurately classify which character is speaking based off what is spoken, where it is spoken, and so on.
+Using the lines of speech from every Simpsons episode ever, we aim to accurately classify which character is speaking based off what is spoken and where.
 
 
-### Methodology to solve this problem (in addition to existing features):
+### Methodology to solve this problem:
 * Narrow down important locations, as particular characters tend to speak and hang out in particular areas.
-* Use n-gram counts instead of just word counts. (Instead of “do” “n’t” “have” “a” “cow” “man”, “cow man” might more accurately predict who is speaking.
+* Criteria for word frequency and document frequency (via TFIDF)
+* Stemming words to turn down the count of 'unique' words
 
 
-### Algorithms to attempt:
-* Logistic Regression 
+### Algorithms Attempted:
+* Logistic Regression (L1 and L2)
 * KNN-Classification 
 * Random forest
 * SVM
-
+* Decision Tree
+* AdaBoost
 
 ## Criteria to determine the best model:
 * Tuning accuracy for ‘main’ characters versus others: there are over 6,000 characters in the full collection of lines, where it would be ideal to tune the model to the more common characters for both accuracy and interest. 
-* Misclassification rate, balance between true positive and false positive (ROC curves)
+* Misclassification rate, balance between true positive and false positive
