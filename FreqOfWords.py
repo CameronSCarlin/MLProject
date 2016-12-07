@@ -9,6 +9,8 @@ from sklearn.ensemble import BaggingClassifier
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.metrics import confusion_matrix
 from sklearn.svm import SVC
+from sklearn.neural_network import MLPClassifier
+import sys
 
 file1 = "simpsons_characters.csv"
 file4 = "simpsons_script_lines.csv"
@@ -95,7 +97,7 @@ def RF(trainx, trainy, testx, testy, listtoiter):
         hypothesis = clf.predict(testx)
         if len(Iwant) == 1:
             confusion(testY, hypothesis)
-        print "RF Misclass (%d) = %f" % (i, (1 - accuracy_score(testy, hypothesis)))
+        print "RF Misclass (Depth = %d) = %f" % (i, (1 - accuracy_score(testy, hypothesis)))
 
 def Dectree(trainx, trainy, testx, testy, listtoiter):
     for i in listtoiter:
@@ -104,7 +106,7 @@ def Dectree(trainx, trainy, testx, testy, listtoiter):
         hypothesis = clf.predict(testx)
         if len(Iwant) == 1:
             confusion(testY, hypothesis)
-        print "Dectree Misclass (%d) = %f" % (i, (1 - accuracy_score(testy, hypothesis)))
+        print "Dectree Misclass (Depth = %d) = %f" % (i, (1 - accuracy_score(testy, hypothesis)))
 
 def LR(trainx, trainy, testx, testy):
     clf = LogisticRegression(n_jobs=-1, penalty='l1')
@@ -144,29 +146,32 @@ def SupVec(trainx, trainy, testx, testy):
         confusion(testY, hypothesis)
     print "SupVec Misclass = %f" % (1 - accuracy_score(testy, hypothesis))
 
-#top ten most common characters in order
-Iwant = ['homer simpson','marge simpson', 'bart simpson', 'lisa simpson',
-         'c montgomery burns', 'moe szyslak', 'seymour skinner', 'ned flanders',
-         'grampa simpson', 'milhouse van houten'] ####### character list is here, needs at least 1
+def Neural(trainx, trainy, testx, testy, alp):
+    clf = MLPClassifier(solver='adam', random_state=1, alpha=alp, max_iter=1000)
+    clf.fit(trainx, trainy)
+    hypothesis = clf.predict(testx)
+    print "Neural Misclass %f = %f" % (alp,(1 - accuracy_score(testy, hypothesis)))
 
 if __name__ == "__main__":
-    data = get_data()
-    targets = set_targets(data,Iwant)
-    treedepths = [25,50,75]     ####### RF and DecTree loop through this list of depths
-    traindata, testdata, trainY, testY = train_test_split(data, targets)
-    corpi = CorpusMaker(traindata, Iwant)
-    numberWord = 250            ####### Change # to number of words desired per character
-    overallSet = Joiner(corpi, numberWord)
-    print "This execution is using %d characters and %d words per character" % (len(Iwant), numberWord)
-    traindata = listAndLength(traindata)
-    testdata = listAndLength(testdata)
-    RF(traindata, trainY, testdata, testY, treedepths)      ####### Comment out an algorithm if you don't want it to execute
-    Dectree(traindata, trainY, testdata, testY, treedepths)
-    LR(traindata, trainY, testdata, testY)
-    Ada(traindata, trainY, testdata, testY)
-    bag(traindata, trainY, testdata, testY)
-    SupVec(traindata, trainY, testdata, testY)
-
-
-
-
+    if len(sys.argv) < 3:
+        print "Function should be called > python FreqOfWords.py #words charater1 character2 ..."
+        print 'Example: > python FreqOfWords.py 250 "homer simpson" "bart simpson"'
+    else:
+        data = get_data()
+        Iwant = sys.argv[2:]
+        targets = set_targets(data,Iwant)
+        treedepths = [50,75,100]     # RF and DecTree loop through this list of depths
+        traindata, testdata, trainY, testY = train_test_split(data, targets)
+        corpi = CorpusMaker(traindata, Iwant)
+        numberWord = int(sys.argv[1])
+        overallSet = Joiner(corpi, numberWord)
+        print "This execution is using %d characters and the %d most common words per character" % (len(Iwant), numberWord)
+        traindata = listAndLength(traindata)
+        testdata = listAndLength(testdata)
+        RF(traindata, trainY, testdata, testY, treedepths)
+        Dectree(traindata, trainY, testdata, testY, treedepths)
+        LR(traindata, trainY, testdata, testY)
+        Ada(traindata, trainY, testdata, testY)
+        bag(traindata, trainY, testdata, testY)
+        SupVec(traindata, trainY, testdata, testY)
+        Neural(traindata, trainY, testdata, testY,0.001)
